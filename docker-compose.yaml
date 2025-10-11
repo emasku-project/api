@@ -1,0 +1,10 @@
+name: emasku
+services:
+  database:
+    image: postgres:17.5-alpine3.22
+    ports:
+      - "15432:5432"
+    environment:
+      POSTGRES_USER: rizalanggoro
+      POSTGRES_PASSWORD: 130603
+      POSTGRES_DB: emasku

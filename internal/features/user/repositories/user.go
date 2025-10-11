@@ -1,0 +1,46 @@
+package repositories
+
+import (
+	"api/internal/features/user/domains"
+	"api/internal/features/user/models"
+	"gorm.io/gorm"
+)
+
+type User struct {
+	db *gorm.DB
+}
+
+func NewUser(
+	db *gorm.DB,
+) *User {
+	return &User{
+		db: db,
+	}
+}
+
+func (r *User) Create(data domains.User) (*domains.User, error) {
+	user := data.ToModel()
+	if err := r.db.Create(&user).Error; err != nil {
+		return nil, err
+	} else {
+		return domains.FromUserModel(user), nil
+	}
+}
+
+func (r *User) CreateInTx(tx *gorm.DB, data domains.User) (*domains.User, error) {
+	user := data.ToModel()
+	if err := tx.Create(&user).Error; err != nil {
+		return nil, err
+	} else {
+		return domains.FromUserModel(user), nil
+	}
+}
+
+func (r *User) GetByEmail(email string) (*domains.User, error) {
+	var user models.User
+	if err := r.db.Where("lower(email) = lower(?)", email).First(&user).Error; err != nil {
+		return nil, err
+	} else {
+		return domains.FromUserModel(&user), nil
+	}
+}

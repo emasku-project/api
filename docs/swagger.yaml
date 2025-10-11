@@ -1,0 +1,289 @@
+definitions:
+  CreateGoldReq:
+    properties:
+      note:
+        type: string
+      price:
+        type: number
+      purchase_date:
+        type: string
+      weight:
+        type: number
+    required:
+    - note
+    - price
+    - purchase_date
+    - weight
+    type: object
+  CreateGoldRes:
+    properties:
+      gold:
+        $ref: '#/definitions/domains.Gold'
+    required:
+    - gold
+    type: object
+  DeleteGoldByIdRes:
+    properties:
+      message:
+        type: string
+    required:
+    - message
+    type: object
+  GetAllGoldsRes:
+    properties:
+      items:
+        items:
+          $ref: '#/definitions/responses.GetAllGoldsItem'
+        type: array
+    required:
+    - items
+    type: object
+  GetGoldByIdRes:
+    properties:
+      gold:
+        $ref: '#/definitions/domains.Gold'
+    required:
+    - gold
+    type: object
+  GetMarketSummaryRes:
+    properties:
+      dollar_rate:
+        type: number
+      dollar_updated_at:
+        type: string
+      global_xau_price:
+        type: number
+      global_xau_updated_at:
+        type: string
+      xau_jewelry_price_gram:
+        type: number
+      xau_price_gram:
+        type: number
+      xau_price_ounce:
+        type: number
+    type: object
+  GetSummaryRes:
+    properties:
+      total_buy_price:
+        type: number
+      total_profit:
+        type: number
+      total_sell_price:
+        type: number
+      total_weight:
+        type: number
+    required:
+    - total_buy_price
+    - total_profit
+    - total_sell_price
+    - total_weight
+    type: object
+  LoginReq:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    required:
+    - email
+    - password
+    type: object
+  LoginRes:
+    properties:
+      token:
+        type: string
+    required:
+    - token
+    type: object
+  LogoutRes:
+    properties:
+      message:
+        type: string
+    required:
+    - message
+    type: object
+  RegisterReq:
+    properties:
+      email:
+        type: string
+      name:
+        type: string
+      password:
+        type: string
+    required:
+    - email
+    - name
+    - password
+    type: object
+  RegisterRes:
+    properties:
+      token:
+        type: string
+    required:
+    - token
+    type: object
+  domains.Gold:
+    properties:
+      id:
+        type: integer
+      note:
+        type: string
+      price:
+        type: number
+      purchase_date:
+        type: string
+      user_id:
+        type: integer
+      weight:
+        type: number
+    required:
+    - id
+    - note
+    - price
+    - purchase_date
+    - user_id
+    - weight
+    type: object
+  responses.GetAllGoldsItem:
+    properties:
+      duration_in_days:
+        type: integer
+      gold:
+        $ref: '#/definitions/domains.Gold'
+      profit:
+        type: number
+      sell_price:
+        type: number
+    required:
+    - duration_in_days
+    - gold
+    - profit
+    - sell_price
+    type: object
+info:
+  contact: {}
+  title: Emasku API
+  version: "1.0"
+paths:
+  /api/v1/auth/login:
+    post:
+      operationId: Login
+      parameters:
+      - description: body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/LoginReq'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/LoginRes'
+      tags:
+      - auth
+  /api/v1/auth/logout:
+    post:
+      operationId: Logout
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/LogoutRes'
+      tags:
+      - auth
+  /api/v1/auth/register:
+    post:
+      operationId: Register
+      parameters:
+      - description: body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/RegisterReq'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/RegisterRes'
+      tags:
+      - auth
+  /api/v1/general/market-summary:
+    get:
+      operationId: GetMarketSummary
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/GetMarketSummaryRes'
+      tags:
+      - general
+  /api/v1/general/summary:
+    get:
+      operationId: GetSummary
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/GetSummaryRes'
+      tags:
+      - general
+  /api/v1/golds:
+    get:
+      operationId: GetAllGolds
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/GetAllGoldsRes'
+      tags:
+      - gold
+    post:
+      operationId: CreateGold
+      parameters:
+      - description: body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/CreateGoldReq'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/CreateGoldRes'
+      tags:
+      - gold
+  /api/v1/golds/{gold_id}:
+    delete:
+      operationId: DeleteGoldById
+      parameters:
+      - description: gold_id
+        in: path
+        name: gold_id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/DeleteGoldByIdRes'
+      tags:
+      - gold
+    get:
+      operationId: GetGoldById
+      parameters:
+      - description: gold_id
+        in: path
+        name: gold_id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/GetGoldByIdRes'
+      tags:
+      - gold
+swagger: "2.0"

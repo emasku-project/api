@@ -1,0 +1,443 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "Emasku API",
+        "contact": {},
+        "version": "1.0"
+    },
+    "paths": {
+        "/api/v1/auth/login": {
+            "post": {
+                "tags": [
+                    "auth"
+                ],
+                "operationId": "Login",
+                "parameters": [
+                    {
+                        "description": "body",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/LoginReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/LoginRes"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/auth/logout": {
+            "post": {
+                "tags": [
+                    "auth"
+                ],
+                "operationId": "Logout",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/LogoutRes"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/auth/register": {
+            "post": {
+                "tags": [
+                    "auth"
+                ],
+                "operationId": "Register",
+                "parameters": [
+                    {
+                        "description": "body",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/RegisterReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/RegisterRes"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/general/market-summary": {
+            "get": {
+                "tags": [
+                    "general"
+                ],
+                "operationId": "GetMarketSummary",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/GetMarketSummaryRes"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/general/summary": {
+            "get": {
+                "tags": [
+                    "general"
+                ],
+                "operationId": "GetSummary",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/GetSummaryRes"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/golds": {
+            "get": {
+                "tags": [
+                    "gold"
+                ],
+                "operationId": "GetAllGolds",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/GetAllGoldsRes"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "gold"
+                ],
+                "operationId": "CreateGold",
+                "parameters": [
+                    {
+                        "description": "body",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/CreateGoldReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/CreateGoldRes"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/golds/{gold_id}": {
+            "get": {
+                "tags": [
+                    "gold"
+                ],
+                "operationId": "GetGoldById",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "gold_id",
+                        "name": "gold_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/GetGoldByIdRes"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "gold"
+                ],
+                "operationId": "DeleteGoldById",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "gold_id",
+                        "name": "gold_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/DeleteGoldByIdRes"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "CreateGoldReq": {
+            "type": "object",
+            "required": [
+                "note",
+                "price",
+                "purchase_date",
+                "weight"
+            ],
+            "properties": {
+                "note": {
+                    "type": "string"
+                },
+                "price": {
+                    "type": "number"
+                },
+                "purchase_date": {
+                    "type": "string"
+                },
+                "weight": {
+                    "type": "number"
+                }
+            }
+        },
+        "CreateGoldRes": {
+            "type": "object",
+            "required": [
+                "gold"
+            ],
+            "properties": {
+                "gold": {
+                    "$ref": "#/definitions/domains.Gold"
+                }
+            }
+        },
+        "DeleteGoldByIdRes": {
+            "type": "object",
+            "required": [
+                "message"
+            ],
+            "properties": {
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "GetAllGoldsRes": {
+            "type": "object",
+            "required": [
+                "items"
+            ],
+            "properties": {
+                "items": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/responses.GetAllGoldsItem"
+                    }
+                }
+            }
+        },
+        "GetGoldByIdRes": {
+            "type": "object",
+            "required": [
+                "gold"
+            ],
+            "properties": {
+                "gold": {
+                    "$ref": "#/definitions/domains.Gold"
+                }
+            }
+        },
+        "GetMarketSummaryRes": {
+            "type": "object",
+            "properties": {
+                "dollar_rate": {
+                    "type": "number"
+                },
+                "dollar_updated_at": {
+                    "type": "string"
+                },
+                "global_xau_price": {
+                    "type": "number"
+                },
+                "global_xau_updated_at": {
+                    "type": "string"
+                },
+                "xau_jewelry_price_gram": {
+                    "type": "number"
+                },
+                "xau_price_gram": {
+                    "type": "number"
+                },
+                "xau_price_ounce": {
+                    "type": "number"
+                }
+            }
+        },
+        "GetSummaryRes": {
+            "type": "object",
+            "required": [
+                "total_buy_price",
+                "total_profit",
+                "total_sell_price",
+                "total_weight"
+            ],
+            "properties": {
+                "total_buy_price": {
+                    "type": "number"
+                },
+                "total_profit": {
+                    "type": "number"
+                },
+                "total_sell_price": {
+                    "type": "number"
+                },
+                "total_weight": {
+                    "type": "number"
+                }
+            }
+        },
+        "LoginReq": {
+            "type": "object",
+            "required": [
+                "email",
+                "password"
+            ],
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                }
+            }
+        },
+        "LoginRes": {
+            "type": "object",
+            "required": [
+                "token"
+            ],
+            "properties": {
+                "token": {
+                    "type": "string"
+                }
+            }
+        },
+        "LogoutRes": {
+            "type": "object",
+            "required": [
+                "message"
+            ],
+            "properties": {
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "RegisterReq": {
+            "type": "object",
+            "required": [
+                "email",
+                "name",
+                "password"
+            ],
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                }
+            }
+        },
+        "RegisterRes": {
+            "type": "object",
+            "required": [
+                "token"
+            ],
+            "properties": {
+                "token": {
+                    "type": "string"
+                }
+            }
+        },
+        "domains.Gold": {
+            "type": "object",
+            "required": [
+                "id",
+                "note",
+                "price",
+                "purchase_date",
+                "user_id",
+                "weight"
+            ],
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "note": {
+                    "type": "string"
+                },
+                "price": {
+                    "type": "number"
+                },
+                "purchase_date": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "integer"
+                },
+                "weight": {
+                    "type": "number"
+                }
+            }
+        },
+        "responses.GetAllGoldsItem": {
+            "type": "object",
+            "required": [
+                "duration_in_days",
+                "gold",
+                "profit",
+                "sell_price"
+            ],
+            "properties": {
+                "duration_in_days": {
+                    "type": "integer"
+                },
+                "gold": {
+                    "$ref": "#/definitions/domains.Gold"
+                },
+                "profit": {
+                    "type": "number"
+                },
+                "sell_price": {
+                    "type": "number"
+                }
+            }
+        }
+    }
+}
