@@ -89,7 +89,7 @@ func (s *Gold) GetAllGolds(c *gin.Context) (*responses.GetAllGolds, *failure.App
 
 		items[i] = responses.GetAllGoldsItem{
 			Gold:           v,
-			DurationInDays: time.Now().Day() - v.PurchaseDate.Day(),
+			DurationInDays: int(time.Now().Sub(v.PurchaseDate).Hours() / 24),
 			SellPrice:      sellPrice,
 			Profit:         profit,
 		}
