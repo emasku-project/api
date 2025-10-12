@@ -48,7 +48,7 @@ func (s *General) GetSummary(c *gin.Context) (*responses.GetSummary, *failure.Ap
 		return nil, failure.NewInternal(err)
 	}
 
-	jewPrice := asset.Price * currency.Rate / 28.34952 * .75
+	jewPrice := asset.Price * currency.Rate / 31.1034767696 * .75
 
 	totalBuyPrice := 0.0
 	totalWeight := 0.0
@@ -84,7 +84,7 @@ func (s *General) GetMarketSummary() (*responses.GetMarketSummary, *failure.App)
 		DollarRate:          currency.Rate,
 		DollarUpdatedAt:     currency.Date,
 		XAUPriceOunce:       asset.Price * currency.Rate,
-		XAUPriceGram:        asset.Price * currency.Rate / 28.34952,
-		XAUJewelryPriceGram: asset.Price * currency.Rate / 28.34952 * .75,
+		XAUPriceGram:        asset.Price * currency.Rate / 31.1034767696,
+		XAUJewelryPriceGram: asset.Price * currency.Rate / 31.1034767696 * .75,
 	}, nil
 }
