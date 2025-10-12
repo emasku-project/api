@@ -84,7 +84,7 @@ func (s *Gold) GetAllGolds(c *gin.Context) (*responses.GetAllGolds, *failure.App
 
 	items := make([]responses.GetAllGoldsItem, len(*golds))
 	for i, v := range *golds {
-		sellPrice := (gold.Price * dollar.Rate / 28.34952 * .75) * v.Weight
+		sellPrice := (gold.Price * dollar.Rate / 31.1034767696 * .75) * v.Weight
 		profit := sellPrice - v.Price
 
 		items[i] = responses.GetAllGoldsItem{
