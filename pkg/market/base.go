@@ -78,5 +78,5 @@ func (m *Market) GetGoldPricePerGram(percent float64) (float64, error) {
 		return 0, err
 	}
 
-	return (xau.Price * dollar.Rates["IDR"]) / 28.34952 * (percent / 100), nil
+	return (xau.Price * dollar.Rates["IDR"]) / 31.1034767696 * (percent / 100), nil
 }
