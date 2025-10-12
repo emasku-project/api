@@ -26,7 +26,7 @@ func NewDollar(
 	}
 }
 
-func (c *Dollar) Start() {
+func (c *Dollar) StartDebug() {
 	dollar, err := c.market.GetDollarPrice()
 	if err != nil {
 		fmt.Println(err.Error())
@@ -53,5 +53,23 @@ func (c *Dollar) Start() {
 		} else {
 			fmt.Println(err.Error())
 		}
+	}
+}
+
+func (c *Dollar) StartProd() {
+	dollar, err := c.market.GetDollarPriceFromFreeCurrency()
+	if err != nil {
+		fmt.Println(err.Error())
+		return
+	}
+
+	if _, err := c.currencyRepo.Create(
+		domains.Currency{
+			Base: "USD",
+			Date: time.Now(),
+			Rate: dollar.Data["IDR"],
+		},
+	); err != nil {
+		fmt.Println(err.Error())
 	}
 }

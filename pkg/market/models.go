@@ -15,3 +15,7 @@ type Dollar struct {
 	Date   string             `json:"date"`
 	Rates  map[string]float64 `json:"rates"`
 }
+
+type FreeCurrency struct {
+	Data map[string]float64 `json:"data"`
+}

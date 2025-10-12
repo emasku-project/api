@@ -2,7 +2,9 @@ package market
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
+	"os"
 )
 
 type Market struct{}
@@ -35,6 +37,26 @@ func (m *Market) GetDollarPrice() (*Dollar, error) {
 
 	var dollar Dollar
 	if err := json.NewDecoder(idrRes.Body).Decode(&dollar); err != nil {
+		return nil, err
+	} else {
+		return &dollar, nil
+	}
+}
+
+func (m *Market) GetDollarPriceFromFreeCurrency() (*FreeCurrency, error) {
+	res, err := http.Get(
+		fmt.Sprintf(
+			"https://api.freecurrencyapi.com/v1/latest?apikey=%s&currencies=IDR",
+			os.Getenv("FREE_CURRENCY_API_KEY"),
+		),
+	)
+	if err != nil {
+		return nil, err
+	}
+	defer res.Body.Close()
+
+	var dollar FreeCurrency
+	if err := json.NewDecoder(res.Body).Decode(&dollar); err != nil {
 		return nil, err
 	} else {
 		return &dollar, nil
