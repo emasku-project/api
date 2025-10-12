@@ -41,7 +41,7 @@ func New() {
 		}
 	} else if os.Getenv("APP_ENV") == "production" {
 		if _, err = s.NewJob(
-			gocron.CronJob("*/45 * * * *", false),
+			gocron.CronJob("0 * * * *", false),
 			gocron.NewTask(
 				func() {
 					fmt.Println("running dollar prod cron")
