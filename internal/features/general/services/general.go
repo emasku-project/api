@@ -48,7 +48,7 @@ func (s *General) GetSummary(c *gin.Context) (*responses.GetSummary, *failure.Ap
 		return nil, failure.NewInternal(err)
 	}
 
-	jewPrice := asset.Price * currency.Rate / 31.1034767696 * .75
+	jewPrice := asset.Price * currency.Rate / 31.1034767696 * 1.08 * .75
 
 	totalBuyPrice := 0.0
 	totalWeight := 0.0
@@ -68,23 +68,23 @@ func (s *General) GetSummary(c *gin.Context) (*responses.GetSummary, *failure.Ap
 }
 
 func (s *General) GetMarketSummary() (*responses.GetMarketSummary, *failure.App) {
-	asset, err := s.assetRepo.GetLatest()
+	gold, err := s.assetRepo.GetLatest()
 	if err != nil {
 		return nil, failure.NewInternal(err)
 	}
 
-	currency, err := s.currencyRepo.GetLatest()
+	dollar, err := s.currencyRepo.GetLatest()
 	if err != nil {
 		return nil, failure.NewInternal(err)
 	}
 
 	return &responses.GetMarketSummary{
-		GlobalXAUPrice:      asset.Price,
-		GlobalXAUUpdatedAt:  asset.UpdatedAt,
-		DollarRate:          currency.Rate,
-		DollarUpdatedAt:     currency.Date,
-		XAUPriceOunce:       asset.Price * currency.Rate,
-		XAUPriceGram:        asset.Price * currency.Rate / 31.1034767696,
-		XAUJewelryPriceGram: asset.Price * currency.Rate / 31.1034767696 * .75,
+		GlobalXAUPrice:      gold.Price,
+		GlobalXAUUpdatedAt:  gold.UpdatedAt,
+		DollarRate:          dollar.Rate,
+		DollarUpdatedAt:     dollar.Date,
+		XAUPriceGram:        gold.Price * dollar.Rate / 31.1034767696 * 1.08,
+		XAUJewelryPriceGram: (gold.Price * dollar.Rate / 31.1034767696 * 1.08) * .75,
+		// XAUPriceOunce:       gold.Price * dollar.Rate,
 	}, nil
 }
