@@ -2,8 +2,10 @@ package repositories
 
 import (
 	"errors"
+	"fmt"
 	"strconv"
 
+	"api/internal/features/general/domains"
 	"api/internal/features/general/models"
 	"gorm.io/gorm"
 )
@@ -16,9 +18,9 @@ func NewSetting(db *gorm.DB) *Setting {
 	return &Setting{db: db}
 }
 
-func (s *Setting) GetTaxByUserId(userId uint) (float64, error) {
+func (r *Setting) GetTaxByUserId(userId uint) (float64, error) {
 	var taxStr string
-	if err := s.db.Model(&models.Setting{}).Where(
+	if err := r.db.Model(&models.Setting{}).Where(
 		"user_id = ? and key = ?",
 		userId, "tax",
 	).Select("value").First(&taxStr).Error; err != nil {
@@ -33,5 +35,23 @@ func (s *Setting) GetTaxByUserId(userId uint) (float64, error) {
 		return 0.0, err
 	} else {
 		return tax, nil
+	}
+}
+
+func (r *Setting) UpdateTaxByUserId(userId uint, tax float64) (*domains.Setting, error) {
+	var setting models.Setting
+	if err := r.db.Where(
+		models.Setting{
+			UserId: userId,
+			Key:    "tax",
+		},
+	).Assign(
+		models.Setting{
+			Value: fmt.Sprintf("%.2f", tax),
+		},
+	).FirstOrCreate(&setting).Error; err != nil {
+		return nil, err
+	} else {
+		return domains.FromSettingModel(&setting), nil
 	}
 }

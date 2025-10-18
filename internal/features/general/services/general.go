@@ -1,6 +1,7 @@
 package services
 
 import (
+	"api/internal/features/general/dto/requests"
 	"api/internal/features/general/dto/responses"
 	"api/internal/features/general/repositories"
 	goldRepo "api/internal/features/gold/repositories"
@@ -105,6 +106,23 @@ func (s *General) GetMarketSummary(c *gin.Context) (*responses.GetMarketSummary,
 		XAUJewelryPriceGram: (gold.Price * dollar.Rate / 31.1034767696 * utils.CalculatePercent(-8.0) * utils.CalculatePercent(taxPercentage)) * .75,
 		TaxPercentage:       taxPercentage,
 	}, nil
+}
+
+func (s *General) UpdateTaxSetting(
+	c *gin.Context, req requests.UpdateTaxSetting,
+) (*responses.UpdateTaxSetting, *failure.App) {
+	session, err := utils.GetAuthenticatedSession(c)
+	if err != nil {
+		return nil, failure.NewUnauthorized()
+	}
+
+	if _, err := s.settingRepo.UpdateTaxByUserId(session.UserId, req.TaxPercentage); err != nil {
+		return nil, failure.NewInternal(err)
+	} else {
+		return &responses.UpdateTaxSetting{
+			Message: "oke",
+		}, nil
+	}
 }
 
 func (s *General) GetSettings(c *gin.Context) (*responses.GetSettings, *failure.App) {

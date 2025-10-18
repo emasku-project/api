@@ -19,6 +19,10 @@ type GetMarketSummary struct {
 	TaxPercentage       float64   `json:"tax_percentage"`
 } // @name GetMarketSummaryRes
 
+type UpdateTaxSetting struct {
+	Message string `json:"message"`
+} // @name UpdateTaxSettingRes
+
 type GetSettings struct {
 	TaxPercentage float64 `json:"tax_percentage"`
 } // @name GetSettingsRes

@@ -117,6 +117,33 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/v1/general/settings/tax": {
+            "post": {
+                "tags": [
+                    "general"
+                ],
+                "operationId": "UpdateTaxSetting",
+                "parameters": [
+                    {
+                        "description": "body",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/UpdateTaxSettingReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/UpdateTaxSettingRes"
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/general/summary": {
             "get": {
                 "tags": [
@@ -414,6 +441,25 @@ const docTemplate = `{
             ],
             "properties": {
                 "token": {
+                    "type": "string"
+                }
+            }
+        },
+        "UpdateTaxSettingReq": {
+            "type": "object",
+            "required": [
+                "tax_percentage"
+            ],
+            "properties": {
+                "tax_percentage": {
+                    "type": "number"
+                }
+            }
+        },
+        "UpdateTaxSettingRes": {
+            "type": "object",
+            "properties": {
+                "message": {
                     "type": "string"
                 }
             }
