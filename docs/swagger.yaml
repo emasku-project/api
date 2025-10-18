@@ -62,6 +62,11 @@ definitions:
       xau_price_gram:
         type: number
     type: object
+  GetSettingsRes:
+    properties:
+      tax_percentage:
+        type: number
+    type: object
   GetSummaryRes:
     properties:
       total_buy_price:
@@ -217,6 +222,16 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/GetMarketSummaryRes'
+      tags:
+      - general
+  /api/v1/general/settings:
+    get:
+      operationId: GetSettings
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/GetSettingsRes'
       tags:
       - general
   /api/v1/general/summary:

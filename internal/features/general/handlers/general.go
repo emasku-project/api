@@ -51,3 +51,19 @@ func (h *General) GetMarketSummary(c *gin.Context) {
 		c.JSON(http.StatusOK, res)
 	}
 }
+
+// @id			GetSettings
+// @tags		general
+// @success		200 {object} responses.GetSettings
+// @router		/api/v1/general/settings [get]
+func (h *General) GetSettings(c *gin.Context) {
+	if res, err := h.service.GetSettings(c); err != nil {
+		c.AbortWithStatusJSON(
+			err.Code, failure.Failure{
+				Message: err.Message,
+			},
+		)
+	} else {
+		c.JSON(http.StatusOK, res)
+	}
+}

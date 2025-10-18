@@ -18,3 +18,7 @@ type GetMarketSummary struct {
 	XAUJewelryPriceGram float64   `json:"xau_jewelry_price_gram"`
 	TaxPercentage       float64   `json:"tax_percentage"`
 } // @name GetMarketSummaryRes
+
+type GetSettings struct {
+	TaxPercentage float64 `json:"tax_percentage"`
+} // @name GetSettingsRes

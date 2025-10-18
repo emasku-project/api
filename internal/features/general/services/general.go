@@ -106,3 +106,19 @@ func (s *General) GetMarketSummary(c *gin.Context) (*responses.GetMarketSummary,
 		TaxPercentage:       taxPercentage,
 	}, nil
 }
+
+func (s *General) GetSettings(c *gin.Context) (*responses.GetSettings, *failure.App) {
+	session, err := utils.GetAuthenticatedSession(c)
+	if err != nil {
+		return nil, failure.NewUnauthorized()
+	}
+
+	taxPercentage, err := s.settingRepo.GetTaxByUserId(session.UserId)
+	if err != nil {
+		return nil, failure.NewInternal(err)
+	}
+
+	return &responses.GetSettings{
+		TaxPercentage: taxPercentage,
+	}, nil
+}

@@ -12,5 +12,6 @@ func General(g *gin.RouterGroup, handler *handlers.General) {
 		group := g.Group(relativePath).Use(middlewares.AuthMiddleware())
 		group.GET("/market-summary", handler.GetMarketSummary)
 		group.GET("/summary", handler.GetSummary)
+		group.GET("/settings", handler.GetSettings)
 	}
 }

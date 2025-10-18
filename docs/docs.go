@@ -101,6 +101,22 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/v1/general/settings": {
+            "get": {
+                "tags": [
+                    "general"
+                ],
+                "operationId": "GetSettings",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/GetSettingsRes"
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/general/summary": {
             "get": {
                 "tags": [
@@ -300,6 +316,14 @@ const docTemplate = `{
                     "type": "number"
                 },
                 "xau_price_gram": {
+                    "type": "number"
+                }
+            }
+        },
+        "GetSettingsRes": {
+            "type": "object",
+            "properties": {
+                "tax_percentage": {
                     "type": "number"
                 }
             }
