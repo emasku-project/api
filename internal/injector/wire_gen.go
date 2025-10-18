@@ -49,7 +49,8 @@ func InitGoldHandlers() *injector.GoldHandlers {
 	gold := repositories2.NewGold(db)
 	asset := repositories.NewAsset(db)
 	currency := repositories.NewCurrency(db)
-	servicesGold := services.NewGold(gold, asset, currency)
+	setting := repositories.NewSetting(db)
+	servicesGold := services.NewGold(gold, asset, currency, setting)
 	handlersGold := handlers.NewGold(servicesGold)
 	goldHandlers := injector.NewGoldHandlers(handlersGold)
 	return goldHandlers
