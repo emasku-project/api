@@ -28,6 +28,7 @@ var (
 		repositories.NewGold,
 		generalRepo.NewAsset,
 		generalRepo.NewCurrency,
+		generalRepo.NewSetting,
 		database.New,
 	)
 )

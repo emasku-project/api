@@ -17,17 +17,20 @@ type Gold struct {
 	goldRepo     *repositories.Gold
 	assetRepo    *generalRepo.Asset
 	currencyRepo *generalRepo.Currency
+	settingRepo  *generalRepo.Setting
 }
 
 func NewGold(
 	goldRepo *repositories.Gold,
 	assetRepo *generalRepo.Asset,
 	currencyRepo *generalRepo.Currency,
+	settingRepo *generalRepo.Setting,
 ) *Gold {
 	return &Gold{
 		goldRepo:     goldRepo,
 		assetRepo:    assetRepo,
 		currencyRepo: currencyRepo,
+		settingRepo:  settingRepo,
 	}
 }
 
@@ -82,9 +85,14 @@ func (s *Gold) GetAllGolds(c *gin.Context) (*responses.GetAllGolds, *failure.App
 		return nil, failure.NewInternal(err)
 	}
 
+	tax, err := s.settingRepo.GetTaxByUserId(session.UserId)
+	if err != nil {
+		return nil, failure.NewInternal(err)
+	}
+
 	items := make([]responses.GetAllGoldsItem, len(*golds))
 	for i, v := range *golds {
-		sellPrice := (gold.Price * dollar.Rate / 31.1034767696 * utils.CalculatePercent(-8.0) * utils.CalculatePercent(5.0) * .75) * v.Weight
+		sellPrice := (gold.Price * dollar.Rate / 31.1034767696 * utils.CalculatePercent(-8.0) * utils.CalculatePercent(tax) * .75) * v.Weight
 		profit := sellPrice - v.Price
 
 		items[i] = responses.GetAllGoldsItem{
