@@ -14,7 +14,7 @@ type GetMarketSummary struct {
 	GlobalXAUUpdatedAt  time.Time `json:"global_xau_updated_at"`
 	DollarRate          float64   `json:"dollar_rate"`
 	DollarUpdatedAt     time.Time `json:"dollar_updated_at"`
-	XAUPriceOunce       float64   `json:"xau_price_ounce"`
 	XAUPriceGram        float64   `json:"xau_price_gram"`
 	XAUJewelryPriceGram float64   `json:"xau_jewelry_price_gram"`
+	TaxPercentage       float64   `json:"tax_percentage"`
 } // @name GetMarketSummaryRes

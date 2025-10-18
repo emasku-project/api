@@ -9,11 +9,8 @@ import (
 func General(g *gin.RouterGroup, handler *handlers.General) {
 	relativePath := "/general"
 	{
-		group := g.Group(relativePath)
-		group.GET("/market-summary", handler.GetMarketSummary)
-	}
-	{
 		group := g.Group(relativePath).Use(middlewares.AuthMiddleware())
+		group.GET("/market-summary", handler.GetMarketSummary)
 		group.GET("/summary", handler.GetSummary)
 	}
 }

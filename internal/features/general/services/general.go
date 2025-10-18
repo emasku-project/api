@@ -13,17 +13,20 @@ type General struct {
 	assetRepo    *repositories.Asset
 	currencyRepo *repositories.Currency
 	goldRepo     *goldRepo.Gold
+	settingRepo  *repositories.Setting
 }
 
 func NewGeneral(
 	assetRepo *repositories.Asset,
 	currencyRepo *repositories.Currency,
 	goldRepo *goldRepo.Gold,
+	settingRepo *repositories.Setting,
 ) *General {
 	return &General{
 		assetRepo:    assetRepo,
 		currencyRepo: currencyRepo,
 		goldRepo:     goldRepo,
+		settingRepo:  settingRepo,
 	}
 }
 
@@ -48,7 +51,12 @@ func (s *General) GetSummary(c *gin.Context) (*responses.GetSummary, *failure.Ap
 		return nil, failure.NewInternal(err)
 	}
 
-	jewPrice := asset.Price * currency.Rate / 31.1034767696 * 1.08 * .75
+	taxPercentage, err := s.settingRepo.GetTaxByUserId(session.UserId)
+	if err != nil {
+		return nil, failure.NewInternal(err)
+	}
+
+	jewPrice := asset.Price * currency.Rate / 31.1034767696 * utils.CalculatePercent(-8.0) * utils.CalculatePercent(taxPercentage) * .75
 
 	totalBuyPrice := 0.0
 	totalWeight := 0.0
@@ -67,7 +75,12 @@ func (s *General) GetSummary(c *gin.Context) (*responses.GetSummary, *failure.Ap
 	}, nil
 }
 
-func (s *General) GetMarketSummary() (*responses.GetMarketSummary, *failure.App) {
+func (s *General) GetMarketSummary(c *gin.Context) (*responses.GetMarketSummary, *failure.App) {
+	session, err := utils.GetAuthenticatedSession(c)
+	if err != nil {
+		return nil, failure.NewUnauthorized()
+	}
+
 	gold, err := s.assetRepo.GetLatest()
 	if err != nil {
 		return nil, failure.NewInternal(err)
@@ -78,13 +91,18 @@ func (s *General) GetMarketSummary() (*responses.GetMarketSummary, *failure.App)
 		return nil, failure.NewInternal(err)
 	}
 
+	taxPercentage, err := s.settingRepo.GetTaxByUserId(session.UserId)
+	if err != nil {
+		return nil, failure.NewInternal(err)
+	}
+
 	return &responses.GetMarketSummary{
 		GlobalXAUPrice:      gold.Price,
 		GlobalXAUUpdatedAt:  gold.UpdatedAt,
 		DollarRate:          dollar.Rate,
 		DollarUpdatedAt:     dollar.Date,
-		XAUPriceGram:        gold.Price * dollar.Rate / 31.1034767696 * 1.08,
-		XAUJewelryPriceGram: (gold.Price * dollar.Rate / 31.1034767696 * 1.08) * .75,
-		// XAUPriceOunce:       gold.Price * dollar.Rate,
+		XAUPriceGram:        gold.Price * dollar.Rate / 31.1034767696 * utils.CalculatePercent(-8.0) * utils.CalculatePercent(taxPercentage),
+		XAUJewelryPriceGram: (gold.Price * dollar.Rate / 31.1034767696 * utils.CalculatePercent(-8.0) * utils.CalculatePercent(taxPercentage)) * .75,
+		TaxPercentage:       taxPercentage,
 	}, nil
 }

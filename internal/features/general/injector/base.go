@@ -27,6 +27,7 @@ var (
 		services.NewGeneral,
 		repositories.NewAsset,
 		repositories.NewCurrency,
+		repositories.NewSetting,
 		goldRepo.NewGold,
 		database.New,
 	)

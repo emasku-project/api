@@ -293,13 +293,13 @@ const docTemplate = `{
                 "global_xau_updated_at": {
                     "type": "string"
                 },
+                "tax_percentage": {
+                    "type": "number"
+                },
                 "xau_jewelry_price_gram": {
                     "type": "number"
                 },
                 "xau_price_gram": {
-                    "type": "number"
-                },
-                "xau_price_ounce": {
                     "type": "number"
                 }
             }

@@ -48,6 +48,7 @@ func New() *gorm.DB {
 
 				&generalModels.Asset{},
 				&generalModels.Currency{},
+				&generalModels.Setting{},
 
 				&userModels.User{},
 				&userModels.Session{},

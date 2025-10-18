@@ -60,7 +60,8 @@ func InitGeneralHandlers() *injector2.GeneralHandlers {
 	asset := repositories.NewAsset(db)
 	currency := repositories.NewCurrency(db)
 	gold := repositories2.NewGold(db)
-	general := services2.NewGeneral(asset, currency, gold)
+	setting := repositories.NewSetting(db)
+	general := services2.NewGeneral(asset, currency, gold, setting)
 	handlersGeneral := handlers2.NewGeneral(general)
 	generalHandlers := injector2.NewGeneralHandlers(handlersGeneral)
 	return generalHandlers

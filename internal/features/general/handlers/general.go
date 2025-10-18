@@ -41,7 +41,7 @@ func (h *General) GetSummary(c *gin.Context) {
 // @success		200 {object} responses.GetMarketSummary
 // @router		/api/v1/general/market-summary [get]
 func (h *General) GetMarketSummary(c *gin.Context) {
-	if res, err := h.service.GetMarketSummary(); err != nil {
+	if res, err := h.service.GetMarketSummary(c); err != nil {
 		c.AbortWithStatusJSON(
 			err.Code, failure.Failure{
 				Message: err.Message,
